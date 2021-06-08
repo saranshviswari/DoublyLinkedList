@@ -1,0 +1,160 @@
+package linkedList;
+
+public class DoublyLinkedList {
+	
+	public Node addNodeAtFirst(int data, Node head){
+		
+		Node node = new Node(data);
+		node.next = head;
+		if(head != null)
+			head.prev = node;
+		
+		return node;
+	}
+	
+	public void addNodeAtLast(int data, Node head){
+		
+		Node node = new Node(data);
+		
+		Node temp = head;
+		while(temp.next != null){
+			
+			temp = temp.next;
+		}
+		temp.next = node;
+		node.prev = temp;
+		
+	}
+	
+	public void addNodeAt(int data, int position, Node head){
+		
+		Node node = new Node(data);
+		int count = 1;
+		Node temp = head;
+		
+		while(temp.next != null && count < position){
+			
+			temp = temp.next;
+			count++;
+		}
+		
+		if(count < position){
+			System.out.println("Linked list is shorter than given position.");
+			return;
+		}
+		
+		node.next = temp;
+		temp.prev.next = node;
+		node.prev = temp.prev;
+		temp.prev = node;
+		
+	}
+	
+	public Node removeAtFirst(Node head){
+		
+		head = head.next;
+		head.prev = null;
+		return head;
+	}
+	
+	public void removeAtLast(Node head){
+		
+		Node temp = head;
+		while(temp.next.next != null){
+			
+			temp = temp.next;
+		}
+		
+		temp.next = null;
+		
+	}
+	
+	public void removeAt(int position, Node head){
+		
+		int count = 1;
+		Node temp = head;
+		
+		while(temp.next != null && count < position){
+			
+			temp = temp.next;
+			count++;
+		}
+		
+		if(count < position){
+			System.out.println("Linked list is shorter than given position.");
+			return;
+		}
+		
+		temp.next.prev = temp.prev;
+		temp.prev.next = temp.next;
+		
+	}
+	
+	public int find(int data, Node head){
+		
+		int count = 1;
+		Node temp = head;
+		
+		while(temp.data != data && temp.next != null){
+			
+			temp = temp.next;
+			count++;
+		}
+		//if found then return position else -1.
+		if(temp.data == data){
+			return count;
+		}
+		else
+			return -1;
+	}
+	
+	public void printLList(Node head){
+		
+		System.out.print("List::");
+		while(head != null){
+			System.out.print(head.data + ", ");
+			head = head.next;
+		}
+		System.out.println();
+	}
+	
+	public static void main(String[] args) {
+		
+		DoublyLinkedList dLinkedList = new DoublyLinkedList();
+		Node head = null;
+		
+		//adding node at first
+		head=dLinkedList.addNodeAtFirst(1, head);
+		head=dLinkedList.addNodeAtFirst(2, head);
+		head=dLinkedList.addNodeAtFirst(3, head);
+		head=dLinkedList.addNodeAtFirst(4, head);
+		
+		//adding node at last
+		dLinkedList.addNodeAtLast(7, head);
+		dLinkedList.addNodeAtLast(11, head);
+		dLinkedList.printLList(head);
+		
+		//adding node at specific position
+		dLinkedList.addNodeAt(19, 4, head);
+		dLinkedList.printLList(head);
+		dLinkedList.addNodeAt(33, 10, head);
+		dLinkedList.printLList(head);
+		
+		//removing from first and last
+		head=dLinkedList.removeAtFirst(head);
+		dLinkedList.printLList(head);
+		dLinkedList.removeAtLast(head);
+		dLinkedList.printLList(head);
+		
+		//removing node from specific position
+		dLinkedList.removeAt(2, head);
+		dLinkedList.printLList(head);
+		dLinkedList.removeAt(9, head);
+		dLinkedList.printLList(head);
+		
+		//data present in Linked list
+		System.out.println("Found at::"+dLinkedList.find(7, head));
+		System.out.println("Found at::"+dLinkedList.find(44, head));
+	}
+
+}
